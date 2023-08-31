@@ -1,8 +1,8 @@
 import {useContractRead,useContractWrite} from "wagmi";
-import abi from "./abis/0x4aE98844598A5750D34fB36971A18BE1bEfe7d42.json";
+import abi from "./abis/0x620a2c1F8525219058938f613fD57339Efca4862.json";
 import type {NFT} from "./contract-types/NFT"
 
-const address="0x4aE98844598A5750D34fB36971A18BE1bEfe7d42";
+const address="0x620a2c1F8525219058938f613fD57339Efca4862";
 
 export function useNFTcontract():NFT{
     const contract=useContractWrite({
@@ -33,7 +33,7 @@ export interface UseNFTFunctionReaderProps {
   // create a generic hook to access read functions of contract
   export function useNFTFunctionReader({
     functionName,
-    args = [], // Default to an empty array if 'args' is not provided
+    args , // Default to an empty array if 'args' is not provided
   }: UseNFTFunctionReaderProps): ReturnType<typeof useContractRead> {
     const contractRead = useContractRead({
       address: address,

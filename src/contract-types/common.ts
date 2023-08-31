@@ -129,4 +129,3 @@ export interface TypedContractMethod<
   estimateGas(...args: ContractMethodArgs<A, S>): Promise<bigint>;
   staticCallResult(...args: ContractMethodArgs<A, "view">): Promise<R>;
 }
-

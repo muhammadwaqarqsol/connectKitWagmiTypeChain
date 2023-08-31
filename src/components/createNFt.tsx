@@ -15,9 +15,11 @@ function CreateNFT() {
       "createToken",
       [getAddress,tokenUri]
     );
+
     let { isLoading, isSuccess } = useWaitForTransaction({
         hash: data?.hash,
       });
+      
     const handlevalue=(e:ChangeEvent<HTMLInputElement>)=>{
       e.preventDefault();
       const inputvalue=e.target.value;
@@ -83,7 +85,7 @@ function CreateNFT() {
 
     return (
       <div style={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-       <div>
+       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexDirection:"column"}}>
        <input
               style={{ height: 40 }}
               placeholder="Input uri"

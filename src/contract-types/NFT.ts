@@ -26,6 +26,7 @@ import type {
 export interface NFTInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "_tokenIds"
       | "approve"
       | "balanceOf"
       | "createToken"
@@ -53,6 +54,7 @@ export interface NFTInterface extends Interface {
       | "Transfer"
   ): EventFragment;
 
+  encodeFunctionData(functionFragment: "_tokenIds", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [AddressLike, BigNumberish]
@@ -108,6 +110,7 @@ export interface NFTInterface extends Interface {
     values: [AddressLike, AddressLike, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "_tokenIds", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
@@ -290,6 +293,8 @@ export interface NFT extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  _tokenIds: TypedContractMethod<[], [bigint], "view">;
+
   approve: TypedContractMethod<
     [to: AddressLike, tokenId: BigNumberish],
     [void],
@@ -361,6 +366,9 @@ export interface NFT extends BaseContract {
     key: string | FunctionFragment
   ): T;
 
+  getFunction(
+    nameOrSignature: "_tokenIds"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "approve"
   ): TypedContractMethod<
@@ -551,4 +559,3 @@ export interface NFT extends BaseContract {
     >;
   };
 }
-

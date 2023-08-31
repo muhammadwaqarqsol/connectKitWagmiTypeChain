@@ -4,4 +4,3 @@
 export type { NFT } from "./NFT";
 export * as factories from "./factories";
 export { NFT__factory } from "./factories/NFT__factory";
-
