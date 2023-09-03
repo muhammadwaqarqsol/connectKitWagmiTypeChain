@@ -1,31 +1,19 @@
-import { ConnectKitButton } from 'connectkit';
-import CreateNFT from './components/createNFt';
-import TransferNFT from './components/transferNft';
-// import NFTInfo from './components/nftInfo';
-import {useTotalTokenId} from "./read"
-import NFTinfo from './components/nftInfo';
+import { Navbar } from './components/navbar';
+import { Routes,Route } from 'react-router-dom';
+import MintNft from "./components/pages/MintNft";
+import { MyNfts } from './components/pages/MyNfts';
+import { MainPage } from './components/pages/mainPage';
+import { ListedNfts } from './components/pages/ListedNfts';
 function App() {
-  const totaltokens=useTotalTokenId();
-  if (!totaltokens) {
-    return <div >No Tokens Minted yet!</div>;
-  }
   return (
-    <div style={{display:"flex",justifyContent:"space-around",alignItems:"center",flexDirection:"column"}}>
-     <ConnectKitButton showBalance/>
-      <CreateNFT />
-      <TransferNFT />
-      <div >
-        {/* create an array starting from 0 index  */}
-        {Array.from(Array(totaltokens).keys()).map(
-          (tokenId: number, i) => {
-            return (
-              <div key={i}>
-                <NFTinfo nftid={tokenId+1} />
-              </div>
-            );
-          }
-        )}
-      </div>
+    <div>
+     <Navbar />
+     <Routes>
+      <Route path="/" element={<MainPage />} ></Route>
+      <Route path='/MintNft' element={<MintNft/>}></Route>
+      <Route path='/MyNfts' element={<MyNfts/>}></Route>
+      <Route path='/ListedNfts' element={<ListedNfts/>}></Route>
+     </Routes>
     </div>
   );
 }
