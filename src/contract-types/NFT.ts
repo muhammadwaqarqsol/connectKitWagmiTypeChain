@@ -29,6 +29,7 @@ export interface NFTInterface extends Interface {
       | "_tokenIds"
       | "approve"
       | "balanceOf"
+      | "burnNft"
       | "createToken"
       | "getApproved"
       | "initialize"
@@ -62,6 +63,10 @@ export interface NFTInterface extends Interface {
   encodeFunctionData(
     functionFragment: "balanceOf",
     values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "burnNft",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "createToken",
@@ -113,6 +118,7 @@ export interface NFTInterface extends Interface {
   decodeFunctionResult(functionFragment: "_tokenIds", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burnNft", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "createToken",
     data: BytesLike
@@ -303,6 +309,12 @@ export interface NFT extends BaseContract {
 
   balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
 
+  burnNft: TypedContractMethod<
+    [tokenId: BigNumberish],
+    [boolean],
+    "nonpayable"
+  >;
+
   createToken: TypedContractMethod<
     [_to: AddressLike, tokenURI: string],
     [bigint],
@@ -379,6 +391,9 @@ export interface NFT extends BaseContract {
   getFunction(
     nameOrSignature: "balanceOf"
   ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "burnNft"
+  ): TypedContractMethod<[tokenId: BigNumberish], [boolean], "nonpayable">;
   getFunction(
     nameOrSignature: "createToken"
   ): TypedContractMethod<

@@ -34,8 +34,8 @@ const config = createConfig(
     webSocketPublicClient,
     chains,
     // Required API Keys
-    infuraId: "e1689fc2aab54b22b47bb44605ea5f2c", // or infuraId
-    walletConnectProjectId:"defd8975a6f9bc6507ee6f21828ef65c",
+    infuraId: process.env.REACT_APP_PUBLIC_INFURA_ID, // or infuraId
+    walletConnectProjectId: process.env.REACT_APP_PUBLIC_WALLETCONNECT_PROJECT_ID || "", // Assign an empty string if it's undefined
     // Required
     appName: "TestApp",
   }),

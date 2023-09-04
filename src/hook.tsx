@@ -1,8 +1,8 @@
 import {useContractRead,useContractWrite} from "wagmi";
-import abi from "./abis/0x620a2c1F8525219058938f613fD57339Efca4862.json";
+import abi from "./abis/0xEa9B6A0EbbA0F4C6Bf3cB2C83D82260A16E58797.json";
 import type {NFT} from "./contract-types/NFT"
 
-const address="0x620a2c1F8525219058938f613fD57339Efca4862";
+const address="0xEa9B6A0EbbA0F4C6Bf3cB2C83D82260A16E58797";
 
 export function useNFTcontract():NFT{
     const contract=useContractWrite({

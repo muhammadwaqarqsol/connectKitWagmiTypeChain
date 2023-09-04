@@ -12,7 +12,6 @@ function Uploader() {
   const [tokenUri, setTokenUri] = useState<string>("");
   // const [isfuncLoading, setIsLoading] = useState(false); // Loading state for the entire process
 
-
   //showing user Selected Image
   const [selectedImage, setSelectedImage] = useState<File | null>(); // To store the selected image URL
   //storing input data 
@@ -61,6 +60,7 @@ function Uploader() {
     const metadatares=await metaData(getNftDetails.NftName,getNftDetails.Description,uploadImages);
     let TokenUri =`https://ipfs.io/ipfs/${metadatares}`;
     setTokenUri(TokenUri);
+    console.log(TokenUri);
     if(tokenUri!==""){     
     const tx=await writeAsync?.();
     console.log("Transaction",tx?.hash);}
@@ -112,7 +112,7 @@ function Uploader() {
               ref={fileInputRef}
               onChange={handleFileInputChange}
             />
-            <button>Browse Files To Uploa</button>
+            <button>Browse Files To Upload</button>
             <p>Upload Only PNG files</p>
           </div>
         )}
@@ -142,7 +142,7 @@ function Uploader() {
          name="Description"  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" placeholder="Description" />
     </div>
   </div>
-  <button className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" onClick={handleUpload}> {isLoading ? "Please Wait" : "Mint NFT"}</button>
+  <button className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" onClick={()=>handleUpload()}> {isLoading ? "Please Wait" : "Mint NFT"}</button>
   <ToastContainer
          position="top-right"
          autoClose={5000}

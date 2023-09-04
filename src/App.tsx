@@ -3,7 +3,7 @@ import { Routes,Route } from 'react-router-dom';
 import MintNft from "./components/pages/MintNft";
 import { MyNfts } from './components/pages/MyNfts';
 import { MainPage } from './components/pages/mainPage';
-import { ListedNfts } from './components/pages/ListedNfts';
+import { NftListing } from './components/pages/NftListing';
 function App() {
   return (
     <div>
@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<MainPage />} ></Route>
       <Route path='/MintNft' element={<MintNft/>}></Route>
       <Route path='/MyNfts' element={<MyNfts/>}></Route>
-      <Route path='/ListedNfts' element={<ListedNfts/>}></Route>
+      <Route path='/ListedNfts' element={<NftListing />}></Route>
      </Routes>
     </div>
   );
