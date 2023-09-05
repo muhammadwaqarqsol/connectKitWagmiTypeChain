@@ -3,7 +3,7 @@ import React from 'react'
 export const MainPage = () => {
   return (
     <div className='flex justify-center items-center flex-col'>
-    <h1 >Welcome to NFTrops</h1>
+    <h1>Welcome to NFTrops</h1>
     <p>Your Gateway to the World of Unique Digital Assets</p>
     <div> <h2>About NFTrops</h2>
         <p>NFTrops is your premier destination for discovering, buying, and selling unique NFTs.</p></div>

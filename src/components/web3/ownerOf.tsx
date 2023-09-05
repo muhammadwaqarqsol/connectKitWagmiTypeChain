@@ -20,11 +20,11 @@ export const OwnedListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
     const [recipientAddress,setRecipientAddress]=useState("");
     const [nftData, setNftData] = useState<NFTData | null>(null); // Use NFTData type for nftData initially
 
-    const { data } = useNFTFunctionReader({
+    const { data,error } = useNFTFunctionReader({
       functionName: 'tokenURI',
       args: [projectID.toString()],
     });
-    const { data:Ownerof,isError} = useNFTFunctionReader({
+    const { data:Ownerof,isError,error:projectIderor} = useNFTFunctionReader({
       functionName: 'ownerOf',
       args: [projectID.toString()],
     });
@@ -59,6 +59,8 @@ export const OwnedListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
         return null;
       }
 return (
+  <>
+  {nftData !== null &&<div className='grid grid-cols-1 md:grid-cols-5 gap-4 mt-7"'>
     <div className='flex justify-center relative group items-start'>
     <div className="bg-purple-300 w-64 
     shadow-lg rounded-lg overflow-hidden 
@@ -75,13 +77,14 @@ return (
          bg-gray-200 text-white font-semibold">
           {nftData?.description}
         </p>
-      </div>
-      <button className="bg-blue-500 rounded-lg p-2 flex justify-center items-center m-2" type="button">
+      </div></div>
+      {/* <button className="bg-blue-500 rounded-lg p-2 flex justify-center items-center m-2" type="button">
             Transfer
-      </button>
+      </button> */}
     </div>
     
-  </div>
+  </div>}
+  </>
   );
 }
 

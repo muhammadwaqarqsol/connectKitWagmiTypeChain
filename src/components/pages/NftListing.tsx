@@ -14,17 +14,17 @@ if(!totaltokens){
 return (
   <div>
     {isConnected ? (
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-7">
+      <>
         {Array.from(Array(totaltokens).keys()).map(
           (projectNumber: number, i) => {
             return (
               <div key={i + 1}>
-                <ListedNfts projectID={i + 1} />
-              </div>
+                <ListedNfts  projectID={i + 1} />
+               </div>
             );
           }
         )}
-      </div>
+      </>
     ) : (
       <div>Connect First</div>
     )}

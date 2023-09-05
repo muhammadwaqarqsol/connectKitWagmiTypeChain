@@ -10,7 +10,7 @@ export const MyNfts = () => {
   }
   
   return (
-        <div>{isConnected ?<div className='grid grid-cols-1 md:grid-cols-5 gap-4 mt-7"'>
+        <div>{isConnected ?<>
         {Array.from(Array(totaltokens).keys()).map(
               (projectNumber: number, i) => {
                 return (
@@ -20,8 +20,7 @@ export const MyNfts = () => {
                 );
               }
             )}
-        </div>:<div>Connect First</div> }
-        
+        </>:<div>Connect First</div> }
         </div>
       )
     }

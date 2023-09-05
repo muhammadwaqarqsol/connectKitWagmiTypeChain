@@ -41,6 +41,8 @@ export interface UseNFTFunctionReaderProps {
       functionName: functionName,
       args: args,
       watch: true,
+      onError(error){
+      }
     });
   
     return contractRead;
