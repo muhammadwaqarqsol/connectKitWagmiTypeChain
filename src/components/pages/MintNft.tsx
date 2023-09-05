@@ -8,7 +8,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Uploader() {
-  const {address}=useAccount(); 
+  const [isImageSelected, setIsImageSelected] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const {address,isConnected}=useAccount(); 
   const [tokenUri, setTokenUri] = useState<string>("");
   // const [isfuncLoading, setIsLoading] = useState(false); // Loading state for the entire process
 
@@ -25,19 +27,24 @@ function Uploader() {
   // // Function to handle removing the selected image
   const handleRemoveImage = () => {
     setSelectedImage(null);
+    setIsImageSelected(false); 
   };
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
+    e.preventDefault();
+   if(isConnected){ const file = e.target.files && e.target.files[0];
   
     if (file?.type === "image/png") {
       // Set the selected image to the file object
       setSelectedImage(file);
+      setIsImageSelected(true); 
     } else {
-      setSelectedImage(null); // Clear the selected image if it's not a valid PNG file
-    }
+      setSelectedImage(null);
+      setIsImageSelected(false); 
+      // Clear the selected image if it's not a valid PNG file
+    }}
   };
   
-  const { writeAsync,data, isError } = useNFTFunctionwriter(
+  const { writeAsync,data } = useNFTFunctionwriter(
     "createToken",
     [address,tokenUri]
   );
@@ -68,7 +75,15 @@ function Uploader() {
   }catch(error){
     // setIsLoading(false);
   }
-  }
+  } 
+
+  useEffect(() => {
+    // Check if both fields are filled
+    setIsFormValid(getNftDetails.NftName.trim() !== "" &&
+    getNftDetails.Description.trim() !== "" &&
+    isImageSelected );
+  }, [getNftDetails,isImageSelected]);
+
 
   useEffect(() => {
     if (isSuccess) {
@@ -89,6 +104,11 @@ function Uploader() {
 
   return (
     <main className='flex justify-center flex-col items-center mt-16'>
+      {!isConnected && (
+      <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 mb-6">
+      Please connect to your account to select a photo.
+    </div>
+    )}
       <form onClick={() => fileInputRef.current?.click()}>
         <div className="image-container">
           {selectedImage && (
@@ -128,7 +148,7 @@ function Uploader() {
       <input  type='text' 
         onChange={handleChange}
         name="NftName"  
-        placeholder='insert NFT name' className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 mr-2" />
+        placeholder='insert NFT name' className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 mr-2" required/>
     </div>
   </div>
   <div className="md:flex md:items-center mb-6">
@@ -139,10 +159,10 @@ function Uploader() {
     </div>
     <div className="md:w-2/3">
       <input onChange={handleChange}
-         name="Description"  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" placeholder="Description" />
+         name="Description"  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" placeholder="Description" required/>
     </div>
   </div>
-  <button className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg" onClick={()=>handleUpload()}> {isLoading ? "Please Wait" : "Mint NFT"}</button>
+  <button disabled={!isFormValid} className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg disabled:bg-slate-200" onClick={()=>handleUpload()}> {isLoading ? "Please Wait" : "Mint NFT"}</button>
   <ToastContainer
          position="top-right"
          autoClose={5000}

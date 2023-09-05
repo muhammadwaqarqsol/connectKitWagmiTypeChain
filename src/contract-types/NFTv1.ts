@@ -23,7 +23,7 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export interface NFTInterface extends Interface {
+export interface NFTv1Interface extends Interface {
   getFunction(
     nameOrSignature:
       | "_tokenIds"
@@ -32,6 +32,7 @@ export interface NFTInterface extends Interface {
       | "burnNft"
       | "createToken"
       | "getApproved"
+      | "getTokens"
       | "initialize"
       | "isApprovedForAll"
       | "name"
@@ -41,6 +42,7 @@ export interface NFTInterface extends Interface {
       | "setApprovalForAll"
       | "supportsInterface"
       | "symbol"
+      | "tokenIds"
       | "tokenURI"
       | "transferFrom"
   ): FunctionFragment;
@@ -76,6 +78,7 @@ export interface NFTInterface extends Interface {
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "getTokens", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "initialize",
     values?: undefined
@@ -107,6 +110,10 @@ export interface NFTInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "tokenIds",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "tokenURI",
     values: [BigNumberish]
   ): string;
@@ -127,6 +134,7 @@ export interface NFTInterface extends Interface {
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getTokens", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
@@ -151,6 +159,7 @@ export interface NFTInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenIds", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
@@ -256,11 +265,11 @@ export namespace TransferEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export interface NFT extends BaseContract {
-  connect(runner?: ContractRunner | null): NFT;
+export interface NFTv1 extends BaseContract {
+  connect(runner?: ContractRunner | null): NFTv1;
   waitForDeployment(): Promise<this>;
 
-  interface: NFTInterface;
+  interface: NFTv1Interface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -323,6 +332,8 @@ export interface NFT extends BaseContract {
 
   getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
+  getTokens: TypedContractMethod<[], [bigint[]], "view">;
+
   initialize: TypedContractMethod<[], [void], "nonpayable">;
 
   isApprovedForAll: TypedContractMethod<
@@ -366,6 +377,8 @@ export interface NFT extends BaseContract {
 
   symbol: TypedContractMethod<[], [string], "view">;
 
+  tokenIds: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
+
   tokenURI: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
   transferFrom: TypedContractMethod<
@@ -404,6 +417,9 @@ export interface NFT extends BaseContract {
   getFunction(
     nameOrSignature: "getApproved"
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  getFunction(
+    nameOrSignature: "getTokens"
+  ): TypedContractMethod<[], [bigint[]], "view">;
   getFunction(
     nameOrSignature: "initialize"
   ): TypedContractMethod<[], [void], "nonpayable">;
@@ -452,6 +468,9 @@ export interface NFT extends BaseContract {
   getFunction(
     nameOrSignature: "symbol"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "tokenIds"
+  ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "tokenURI"
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;

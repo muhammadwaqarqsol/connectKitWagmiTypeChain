@@ -25,7 +25,7 @@ export const Navbar = () => {
       </nav>
       <div className='flex flex-row gap-6 justify-center items-center rounded-lg '>
       <div>{isConnected ? <p className='text-xl justify-center items-center bg-purple-300 rounded-3xl p-2'>Owned : {Ownerof?.toString()}</p> : null}</div>
-      <ConnectKitButton />
+      <ConnectKitButton showBalance />
       </div>
     </div>
   </header>

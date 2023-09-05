@@ -46,13 +46,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+     <BrowserRouter>
     <WagmiConfig config={config}>
     <ConnectKitProvider>
-      <BrowserRouter>
         <App />
-    </BrowserRouter>
       </ConnectKitProvider>
       </WagmiConfig>
+      </BrowserRouter>
   </React.StrictMode>
 );
 reportWebVitals();

@@ -1,20 +1,20 @@
-import {NFT} from "../../contract-types/NFT"
+import {NFTv1} from "../../contract-types/NFTv1"
 import {useNFTFunctionReader} from "../../hook";
 
-export function useTotalTokenId(): number {
+export function useTotalTokenId(): number | undefined{
     const totalTokenId = useNFTFunctionReader({
         functionName: "_tokenIds"
     });
-    const _tokenIds: Awaited<ReturnType<NFT["_tokenIds"]>> | undefined = totalTokenId.data as Awaited<ReturnType<NFT["_tokenIds"]>>;
+    const _tokenIds: Awaited<ReturnType<NFTv1["_tokenIds"]>> | undefined = totalTokenId.data as Awaited<ReturnType<NFTv1["_tokenIds"]>>;
 
     if (_tokenIds === undefined) {
-        throw new Error("TotalTokenId is undefined"); // Handle this error in your code as needed
+    return undefined;    
     }
 
     const tokenIdValue = parseInt(_tokenIds.toString()) as number;
 
     if (isNaN(tokenIdValue)) {
-        throw new Error("TotalTokenId is not a valid number"); // Handle this error in your code as needed
+        return undefined; // Handle this error in your code as needed
     }
 
     return tokenIdValue;

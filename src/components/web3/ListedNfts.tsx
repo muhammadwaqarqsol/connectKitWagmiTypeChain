@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNFTFunctionReader } from '../../hook';
-import { useTotalTokenId } from '../web3/totaltokenId';
 
 interface ListedNftsProps {
   projectID: number;
@@ -17,13 +16,13 @@ interface NFTData {
 
 export const ListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
 
-  const totaltokens = useTotalTokenId();
   const [nftData, setNftData] = useState<NFTData | null>(null); // Use NFTData type for nftData initially
 
   const { data,isError,error } = useNFTFunctionReader({
     functionName: 'tokenURI',
     args: [projectID.toString()],
   });
+
 
   useEffect(() => {
     // if
@@ -51,33 +50,26 @@ export const ListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
     console.log("NFT : ",nftData)
   }, [nftData]);
 
-  if (!totaltokens) {
-    return <div>No Tokens Minted yet!</div>;
-  }
+
 
   return (
     <>
     {nftData !== null &&(
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-7">
-      <div className='flex items-center justify-center relative group'>
-        <div className="bg-purple-300 w-64 
-        shadow-lg rounded-lg overflow-hidden 
-        relative block group">
-          <div className="p-3 flex flex-col 
-          items-center justify-center relative">
-          <img src={nftData?.image} className="w-auto h-40 object-cover mb-4" alt="NFT" />
-              <h1 className='font-bold text-xl text-center text-white'>{nftData?.name}</h1>
-                <p className="opacity-0 group-hover:opacity-100 duration-300 absolute inset-x-0 bottom-0 flex justify-center items-end text-xl
-                  bg-gray-200 text-white font-semibold">
-                        {nftData?.description}
-                </p>
-          </div>
-        </div>
-      </div>
-    </div>
+       <div className="flex flex-col justify-center items-center">
+       <div className="bg-purple-300 !z-5 relative rounded-[20px] max-w-[300px] bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full !p-4 3xl:p-![18px] undefined">
+           <div className="h-full w-full">
+               <div className="relative w-full">
+                   <img src={nftData?.image} className="mb-3 h-full w-full rounded-xl 3xl:h-full 3xl:w-full" alt=""/>
+               </div>
+                   <div className="mb-2 flex justify-center items-center flex-col">
+                       <p className="text-2xl font-bold text-navy-700"> {nftData?.name}</p>
+                       <div className="flex items-center justify-between md:items-center lg:justify-between ">
+                   </div>
+                   </div>
+           </div>
+       </div>
+   </div>
     )}
     </>
-
-
   );
 };
