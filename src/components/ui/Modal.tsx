@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState,useEffect } from "react";
 import { isAddress } from "viem";
-import { useNFTFunctionwriter } from "../../hook";
+import { useNFTFunctionwriter } from "../utils/hook";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

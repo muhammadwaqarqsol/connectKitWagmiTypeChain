@@ -2,11 +2,11 @@ import React, { useState, ChangeEvent, useRef, useEffect } from 'react';
 import '../utils/uploader.css';
 import ImageUploader from '../utils/ImageUploader';
 import metaData from '../utils/Metadata';
-import { useNFTFunctionwriter } from "../../hook";
+import { useNFTFunctionwriter } from "../utils/hook";
 import { useAccount, useWaitForTransaction } from 'wagmi';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import MintModal from '../ui/MintModal';
+import {MintModal} from '../ui/MintModal';
 
 function Uploader() {
   const [isImageSelected, setIsImageSelected] = useState(false);
@@ -34,7 +34,7 @@ function Uploader() {
     e.preventDefault();
    if(isConnected){ const file = e.target.files && e.target.files[0];
   
-    if (file?.type === "image/png") {
+    if (file) {
       // Set the selected image to the file object
       setSelectedImage(file);
       setIsImageSelected(true); 
@@ -165,7 +165,7 @@ function Uploader() {
 
   </div>
   {/* <button disabled={!isFormValid} className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg disabled:bg-slate-200" onClick={()=>handleUpload()}> {isLoading ? "Please Wait" : "Mint NFT"}</button> */}
-  <MintModal />
+  <MintModal  getNftDetails={getNftDetails} selectedImage={selectedImage}/>
 
   <ToastContainer
          position="top-right"

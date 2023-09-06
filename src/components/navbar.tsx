@@ -1,6 +1,6 @@
 import { ConnectKitButton } from 'connectkit'
 import { Link } from 'react-router-dom'
-import { useNFTFunctionReader } from '../hook';
+import { useNFTFunctionReader } from './utils/hook';
 import { useAccount } from 'wagmi';
 export const Navbar = () => {
   const { address,isConnected } = useAccount();

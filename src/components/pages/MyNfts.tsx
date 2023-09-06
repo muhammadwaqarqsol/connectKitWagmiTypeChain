@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useTotalTokenId } from '../web3/totaltokenId';
 import { OwnedListedNfts } from '../web3/ownerOf';
 import { useAccount } from 'wagmi';
-import { useNFTFunctionReader } from '../../hook';
+import { useNFTFunctionReader } from '../utils/hook';
 export const MyNfts = () => {
    const {isConnected}=useAccount();
    const totaltokens = useTotalTokenId();

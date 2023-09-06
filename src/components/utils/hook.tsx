@@ -1,7 +1,6 @@
 import {useContractRead,useContractWrite} from "wagmi";
-import abi from "./abis/0x68377b4BDf3b1E4804D15E81774c5398A670E5eE.json";
-import type {NFTv1} from "./contract-types/NFTv1"
-
+import { NFTv1 } from "../../contract-types";
+import abi from "../../abis/0x68377b4BDf3b1E4804D15E81774c5398A670E5eE.json"
 const address="0x68377b4BDf3b1E4804D15E81774c5398A670E5eE";
 
 export function useNFTcontract():NFTv1{

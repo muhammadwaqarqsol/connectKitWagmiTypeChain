@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { ChangeEvent,MouseEvent, useCallback, useEffect, useState } from 'react';
-import { useNFTFunctionReader, useNFTFunctionwriter } from '../../hook';
+import { useNFTFunctionReader, useNFTFunctionwriter } from '../utils/hook';
 import { useAccount, useWaitForTransaction } from 'wagmi';
 import {Modal} from '../ui/Modal';
 interface ListedNftsProps {

@@ -1,61 +1,82 @@
 import React, { ChangeEvent, useState,useEffect } from "react";
-import { useNFTFunctionwriter } from "../../hook";
-import { useAccount, useWaitForTransaction } from "wagmi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ImageUploader from '../utils/ImageUploader';
+import metaData from '../utils/Metadata';
+import { useNFTFunctionwriter } from "../utils/hook";
+import { useAccount, useWaitForTransaction } from 'wagmi';
 
+interface MintModalProps {
+    selectedImage: File | null | undefined;
+    getNftDetails: {
+      NftName: string;
+      Description: string;
+    };
+  }
   
-  
-export default function MintModal() {
-    // Access the title prop and use it in your component
-
+export const MintModal: React.FC<MintModalProps> = ({ getNftDetails, selectedImage }: MintModalProps) => {    // Access the title prop and use it in your component
     const {address}=useAccount();
-    const [showModal, setShowModal] = useState(false);
+    const [showModal,setShowModal ] = useState(false);
+    const [MetadataStatus,setMetadataStatus]=useState(false);
+    const [ImageStatus, setImageStatus] = useState(false);
+    const [Mintstatus, setMintstatus] = useState(false);
+    const [tokenUri, setTokenUri] = useState<string>("");
 
+    const { writeAsync,data } = useNFTFunctionwriter(
+        "createToken",
+        [address,tokenUri]
+      );
     
+      let {isLoading,isSuccess } = useWaitForTransaction({
+          hash: data?.hash,
+        });
 
-    // const handleChange =(e:ChangeEvent<HTMLButtonElement>)=>{
+        const mintNft=async()=>{
+            console.log("called");
+            const tx=await writeAsync?.();
+            console.log("Transaction",tx?.hash);
+            if(isLoading){
+                setMintstatus(true);
+            }
+            }
 
-    //   }
-    //   const handleTransfer=async()=>{
-    //     try{
-    //     // await writeAsync?.();
-    //     }catch(error){
-    //         toast.error("Error",{
-    //             position: "top-right",
-    //             autoClose: 5000,
-    //             hideProgressBar: false,
-    //             closeOnClick: true,
-    //             pauseOnHover: false,
-    //             draggable: true,
-    //             progress: undefined,
-    //             theme: "light",
-    //           });
-    //   }
-    //   } 
-    //   useEffect(() => {
-    //     if (isSuccess) {
-    //       isSuccess=false;
-    //     //   setShowModal(false)
-    //       toast.success("Nft transfered Successfully ",{
-    //         position: "top-right",
-    //         autoClose: 5000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: false,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //       });
-    //       console.log(transfer, "Data");
-    //     }
-    //   }, [isSuccess]);
+        const handleUpload=async()=>{
+          console.log(selectedImage,getNftDetails);
+            const uploadImages= await ImageUploader(selectedImage,getNftDetails.NftName);
+            console.log(uploadImages?.status);
+            if(uploadImages?.status===200){
+            setImageStatus(true)}
+            const metadatares=await metaData(getNftDetails.NftName,getNftDetails.Description,uploadImages?.IpfshashImage);
+            console.log(metadatares?.status);
+            if(metadatares?.status===200){
+                setMetadataStatus(true)  
+            }
+            let TokenUri =`https://ipfs.io/ipfs/${metadatares?.IpfsHash}`;
+             setTokenUri(TokenUri);
+            console.log(TokenUri);
+            // if(tokenUri!=""){ 
+                await mintNft()
+            // }    
+           
+        }
+
+        
+        useEffect(() => {
+            if (isSuccess) {
+              isSuccess=false;
+                setShowModal(false);              
+            console.log(data, "Data");
+            }
+          }, [isSuccess]);
+        
+
+
     return (
         <>
             <button
                 className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg disabled:bg-slate-200"
                 type="button"
-                onClick={() => setShowModal(true)}
+                onClick={() => {setShowModal(true);handleUpload()}}
             >
                 Mint NFT
             </button>
@@ -64,54 +85,75 @@ export default function MintModal() {
                     <div
                         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-auto my-6 mx-auto max-w-sm">
+                        <div >
                             {/*content*/}
-                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                            <div className="p-10 border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 {/*header*/}
-                                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                <div className="flex items-center justify-center p-5 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-3xl font-semibold">
-                                        NFT transfer
+                                        Minting Process
                                     </h3>
-                                    <button
-                                        className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                        onClick={() => setShowModal(false)}
-                                    >
-                                        <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                            ×
-                                        </span>
-                                    </button>
                                 </div>
                                 {/*body*/}
-                                <div className="relative p-6 flex-auto flex justify-center items-center flex-col">
-                                    <div className="md:flex md:items-center mb-6">
-                                        <div className="md:w-1/3">
-                                            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4">
-                                                Recepient Address
-                                            </label>
-                                        </div>
-                                        <div className="md:w-2/3">
-                                            <input
-                                                name="Description" className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" placeholder="Address" required />
-                                        </div>
+                                <div className="flex flex-col">
+                                    <div className="flex flex-row justify-center items-center">
+                                        {ImageStatus ?   <div className="flex flex-row justify-center items-center">
+                                            <img src="svgtick.svg" className="h-8" />
+                                            <p className="text-green-400  hover:cursor-default focus:outline-nonefont-medium rounded text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                                                Success
+                                            </p>
+                                        </div>:<div className="flex flex-row justify-center items-center">
+                                            <svg aria-hidden="true" role="status" className="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"></path>
+                                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"></path>
+                                            </svg>
+                                            <p className="text-black  hover:cursor-default focus:outline-nonefont-medium rounded text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                                                Loading...
+                                            </p>
+                                        </div>}
+                                        <div>Uploading to Ipfs Done!.</div>
+                                    </div>
+                                    <div className="flex flex-row justify-center items-center">
+                                        {MetadataStatus ? <div className="flex flex-row justify-center items-center">
+                                            <img src="svgtick.svg" className="h-8" />
+                                            <p className="text-green-400  hover:cursor-default focus:outline-nonefont-medium rounded text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                                                Success
+                                            </p>
+                                        </div>:<div className="flex flex-row justify-center items-center">
+                                            <svg aria-hidden="true" role="status" className="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"></path>
+                                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"></path>
+                                            </svg>
+                                            <p className="text-black  hover:cursor-default focus:outline-nonefont-medium rounded text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                                                Loading...
+                                            </p>
+                                        </div>}
+                                        <div>Uploading to MetaData Done!.</div>
+                                    </div>
+                                   
+                                    <div className="flex flex-row justify-center items-center">
+                                        {MetadataStatus ? <div className="flex flex-row justify-center items-center">
+                                            <img src="svgtick.svg" className="h-8" />
+                                            <p className="text-green-400  hover:cursor-default focus:outline-nonefont-medium rounded text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                                                Success
+                                            </p>
+                                        </div>:<div className="flex flex-row justify-center items-center">
+                                            <svg aria-hidden="true" role="status" className="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"></path>
+                                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"></path>
+                                            </svg>
+                                            <p className="text-black  hover:cursor-default focus:outline-nonefont-medium rounded text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                                                Loading...
+                                            </p>
+                                        </div>}
+                                        <div>Minting NFT Transaction.</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                 </>
             ) : null}
-            <ToastContainer
-         position="top-right"
-         autoClose={5000}
-         hideProgressBar={false}
-         newestOnTop={false}
-         closeOnClick
-         rtl={false}
-         pauseOnFocusLoss
-         draggable
-         pauseOnHover={false}
-         theme="light"/>
         </>
     );
 }

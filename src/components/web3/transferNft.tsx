@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, MouseEvent, useEffect } from "react";
 import { useAccount, useWaitForTransaction } from "wagmi";
-import { useNFTFunctionwriter }  from "../../hook";
+import { useNFTFunctionwriter }  from "../utils/hook";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

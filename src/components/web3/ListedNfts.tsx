@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNFTFunctionReader } from '../../hook';
+import { useNFTFunctionReader } from '../utils/hook';
 
 interface ListedNftsProps {
   projectID: number;

@@ -1,5 +1,5 @@
 import {NFTv1} from "../../contract-types/NFTv1"
-import {useNFTFunctionReader} from "../../hook";
+import {useNFTFunctionReader} from "../utils/hook";
 
 export function useTotalTokenId(): number | undefined{
     const totalTokenId = useNFTFunctionReader({
