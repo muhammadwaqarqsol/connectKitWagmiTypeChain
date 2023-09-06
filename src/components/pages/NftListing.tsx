@@ -17,8 +17,7 @@ export const NftListing = () => {
 return (
   <div>
     {isConnected ? (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-7">
-
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5">
         {Array.from(Array(totaltokens).keys()).map(
           (i) => {
             return (

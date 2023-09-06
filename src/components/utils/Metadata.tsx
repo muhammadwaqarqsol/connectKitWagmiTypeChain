@@ -27,7 +27,8 @@ async function metaData(nftTitle:string,NftDescription:string ,IpfsHash:string) 
     };
 
     const MetadataRes = await axios(config);
-    return MetadataRes.data.IpfsHash
+    return {IpfsHash:MetadataRes.data.IpfsHash,
+        status:MetadataRes.status}
   } catch (error) {
     console.error("Error in metaData function:", error);
   }

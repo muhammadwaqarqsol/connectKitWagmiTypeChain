@@ -1,8 +1,8 @@
 import axios from 'axios';
-import React, { ChangeEvent, MouseEventHandler, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent,MouseEvent, useCallback, useEffect, useState } from 'react';
 import { useNFTFunctionReader, useNFTFunctionwriter } from '../../hook';
 import { useAccount, useWaitForTransaction } from 'wagmi';
-
+import {Modal} from '../ui/Modal';
 interface ListedNftsProps {
   projectID: number; // Change the type of projectID to match your data type
 }
@@ -11,6 +11,7 @@ interface NFTData {
   image: string;
   name: string;
   description: string;
+  nftTokenId:string;
   // Add more properties if needed
 }
 
@@ -29,42 +30,15 @@ export const OwnedListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
       args: [projectID.toString()],
     });
 
-    const { writeAsync, data:transfer } = useNFTFunctionwriter(
-      "transferFrom",
-      [address, recipientAddress, projectID]
-    );
-    let { isLoading, isSuccess } = useWaitForTransaction({
-      hash: transfer?.hash,
-    });
+    
 
-    const { writeAsync:burnToken, data:burn } = useNFTFunctionwriter(
-      "burnNft",
-      [tokenId]
-    );
-    let { isLoading:burnLoader, isSuccess:burnSuccess } = useWaitForTransaction({
-      hash: transfer?.hash,
-    });
-    const handleBurnButtonClick = useCallback((e:any) => {
-      let value = e.currentTarget.parentElement?.getAttribute("key");
-      if (value) {
-        setTokenId(value.toString());
-      }
-    }, []);
-  
-    useEffect(() => {
-      console.log(tokenId);
-    }, [handleBurnButtonClick]);
-    // const handleBurnButtonClick = (e:React.MouseEvent<HTMLElement>) => {
-    //   let value = e.currentTarget.parentElement?.getAttribute("key");
-    //   if (value) {
-    //     setTokenId(value.toString());
-    // }
-    // }
-
-    // useEffect(()=>{
-    //   console.log(tokenId)
-    // },[handleBurnButtonClick])
-
+    // const { writeAsync:burnToken, data:burn } = useNFTFunctionwriter(
+    //   "burnNft",
+    //   [tokenId]
+    // );
+    // let { isLoading:burnLoader, isSuccess:burnSuccess } = useWaitForTransaction({
+    //   hash: transfer?.hash,
+    // });
     useEffect(() => {
     if(!isError){if(Ownerof===address)
     { 
@@ -73,7 +47,12 @@ export const OwnedListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
       axios
         .get(data?.toString())
         .then((response) => {
-          setNftData(response.data);
+          const currentData=response.data;
+            const updateNftData:any={
+              ...currentData,
+              nftTokenId:projectID,
+          }
+          setNftData(updateNftData);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
@@ -86,24 +65,27 @@ export const OwnedListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
 return (
   <>
   {nftData !== null &&
-    <div className="flex flex-col justify-center items-center">
-            <div className="bg-purple-300 !z-5 relative rounded-[20px] max-w-[300px] bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full !p-4 3xl:p-![18px] undefined">
-                <div className="h-full w-full">
-                    <div className="relative w-full">
-                        <img src={nftData?.image} className="mb-3 h-40 w-full rounded-xl 3xl:h-full 3xl:w-full" alt=""/>
-                    </div>
-                        <div className="mb-2 flex justify-center items-center flex-col">
-                            <p className="text-2xl font-bold text-navy-700"> {nftData?.name}</p>
-                            {/* <p className="text-2xl font-bold text-navy-700">{nftData?.description}</p> */}
-                            <div className="flex items-center justify-between md:items-center lg:justify-between mt-4">
-                            <button  className="  bg-yellow-200 linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-black transition duration-200 hover:bg-brand-800 active:bg-brand-700">Transfer NFT</button>
-                            <button  className=" ml-3 bg-red-400 linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-black transition duration-200 hover:bg-brand-800 active:bg-brand-700" onClick={ handleBurnButtonClick}>Burn NFT</button>
-                        </div>
-                        </div>
+    <div className="flex flex-col justify-center items-center m-4">
+    <div className="!z-5 relative rounded-[20px] max-w-[500px] max-h-[500px] bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full !p-4 3xl:p-![18px] bg-white outline-dashed undefined">
+        <div className="h-full w-full">
+            <div className="relative w-full">
+                <img src={nftData?.image} className="mb-3 h-40 w-full rounded-xl 3xl:h-full 3xl:w-full" alt=""/>
+            </div>
+            <div className="mb-3 flex items-center justify-between px-1 md:items-start">
+                <div className="mb-2">
+                    <p className="text-lg font-bold text-navy-700"> {nftData?.name} </p>
+                    <p className="text-lg mt-1 font-medium text-gray-600 md:mt-2">{nftData?.description}</p>
+                    <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2">By You</p>
                 </div>
             </div>
+            <div className="flex items-center justify-between md:items-center lg:justify-between ">
+                <Modal tokenId={nftData?.nftTokenId} />
+            </div>
         </div>
+    </div>
+</div>
     }
+  
   </>
   );
 }

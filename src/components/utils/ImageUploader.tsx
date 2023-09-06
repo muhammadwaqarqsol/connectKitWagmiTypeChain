@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect } from "react";
 const JWT=process.env.REACT_APP_JWT;
 
 async function ImageUploader(ipfsArray:any,fileName:string) {
@@ -24,7 +23,7 @@ async function ImageUploader(ipfsArray:any,fileName:string) {
       }
     });
     const data = res.data;
-    return data.IpfsHash;
+    return {IpfshashImage:data.IpfsHash,status:res.status}
   } catch (error) {
     console.log(error);
     return null;

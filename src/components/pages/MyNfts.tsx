@@ -10,6 +10,7 @@ export const MyNfts = () => {
     functionName: "getTokens"
   })as { data: bigint[] };
 
+  
   if(!totaltokens){
     return <>{isConnected?<div className='justify-center items-center flex flex-col'>
     <img src='error.png' />
@@ -19,18 +20,19 @@ export const MyNfts = () => {
     </>
   }
   return (
-        <div>
-          {isConnected ? <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5">
-            {
-        data?.map((item, index) => (
-          <div key={item.toString()}>
-        <OwnedListedNfts projectID={Number(item)} />
+    <div>
+      {isConnected ? (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-5">
+          {data?.length ===0 ? 
+          (data.map((item, index) => (
+            <OwnedListedNfts key={Number(item)} projectID={Number(item)} />
+          ))
+        ) :(<p>You Dont Own Anything</p>)
+           }
         </div>
-         ))
-        }
-        </div>:<div>Connect First</div> }
-        </div>
-      )
-    }
-
-
+      ) : (
+        <div>Connect First</div>
+      )}
+    </div>
+  );
+      }

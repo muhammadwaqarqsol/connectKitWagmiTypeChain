@@ -6,6 +6,7 @@ import { useNFTFunctionwriter } from "../../hook";
 import { useAccount, useWaitForTransaction } from 'wagmi';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MintModal from '../ui/MintModal';
 
 function Uploader() {
   const [isImageSelected, setIsImageSelected] = useState(false);
@@ -64,8 +65,8 @@ function Uploader() {
     try{
     // setIsLoading(true);
     const uploadImages= await ImageUploader(selectedImage,getNftDetails.NftName);
-    const metadatares=await metaData(getNftDetails.NftName,getNftDetails.Description,uploadImages);
-    let TokenUri =`https://ipfs.io/ipfs/${metadatares}`;
+    const metadatares=await metaData(getNftDetails.NftName,getNftDetails.Description,uploadImages?.IpfshashImage);
+    let TokenUri =`https://ipfs.io/ipfs/${metadatares?.IpfsHash}`;
     setTokenUri(TokenUri);
     console.log(TokenUri);
     if(tokenUri!==""){     
@@ -161,8 +162,11 @@ function Uploader() {
       <input onChange={handleChange}
          name="Description"  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" placeholder="Description" required/>
     </div>
+
   </div>
-  <button disabled={!isFormValid} className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg disabled:bg-slate-200" onClick={()=>handleUpload()}> {isLoading ? "Please Wait" : "Mint NFT"}</button>
+  {/* <button disabled={!isFormValid} className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg disabled:bg-slate-200" onClick={()=>handleUpload()}> {isLoading ? "Please Wait" : "Mint NFT"}</button> */}
+  <MintModal />
+
   <ToastContainer
          position="top-right"
          autoClose={5000}
