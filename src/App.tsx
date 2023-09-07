@@ -6,7 +6,7 @@ import { MainPage } from './components/pages/mainPage';
 import { NftListing } from './components/pages/NftListing';
 function App() {
   return (
-    <div>
+    <div className="relative min-h-screen">
      <Navbar />
      <Routes>
       <Route path="/" element={<MainPage />} ></Route>
@@ -15,6 +15,7 @@ function App() {
       <Route path='/ListedNfts' element={<NftListing />}></Route>
      </Routes>
     </div>
+
   );
 }
 

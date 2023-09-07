@@ -62,7 +62,7 @@ export const ListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
         <div className="!z-5 relative rounded-[20px] max-w-[500px] max-h-[500px] bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full !p-4 3xl:p-![18px] bg-white outline-dashed undefined">
             <div className="h-full w-full">
                 <div className="relative w-full">
-                    <img src={nftData?.image} className="mb-3 h-40 w-full rounded-xl 3xl:h-full 3xl:w-full" alt=""/>
+                    <img src={nftData?.image} className="mb-3 h-40 w-full rounded-xl 3xl:h-full 3xl:w-full " alt=""/>
                 </div>
                 <div className="mb-3 flex items-center justify-between px-1 md:items-start">
                     <div className="mb-2">

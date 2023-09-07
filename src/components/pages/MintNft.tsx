@@ -1,19 +1,13 @@
-import React, { useState, ChangeEvent, useRef, useEffect } from 'react';
+import  { useState, ChangeEvent, useRef, useEffect } from 'react';
 import '../utils/uploader.css';
-import ImageUploader from '../utils/ImageUploader';
-import metaData from '../utils/Metadata';
-import { useNFTFunctionwriter } from "../utils/hook";
-import { useAccount, useWaitForTransaction } from 'wagmi';
-import { ToastContainer, toast } from "react-toastify";
+import { useAccount } from 'wagmi';
 import "react-toastify/dist/ReactToastify.css";
 import {MintModal} from '../ui/MintModal';
 
 function Uploader() {
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const {address,isConnected}=useAccount(); 
-  const [tokenUri, setTokenUri] = useState<string>("");
-  // const [isfuncLoading, setIsLoading] = useState(false); // Loading state for the entire process
+  const {isConnected}=useAccount(); 
 
   //showing user Selected Image
   const [selectedImage, setSelectedImage] = useState<File | null>(); // To store the selected image URL
@@ -45,38 +39,16 @@ function Uploader() {
     }}
   };
   
-  const { writeAsync,data } = useNFTFunctionwriter(
-    "createToken",
-    [address,tokenUri]
-  );
-
-  let {isLoading,isSuccess } = useWaitForTransaction({
-      hash: data?.hash,
-    });
   
   const handleChange =(e:ChangeEvent<HTMLInputElement>)=>{
+    e.preventDefault();
     setNftDetails({
       ...getNftDetails,
       [e.target.name]:e.target.value,
     });
   }
 
-  const handleUpload=async()=>{
-    try{
-    // setIsLoading(true);
-    const uploadImages= await ImageUploader(selectedImage,getNftDetails.NftName);
-    const metadatares=await metaData(getNftDetails.NftName,getNftDetails.Description,uploadImages?.IpfshashImage);
-    let TokenUri =`https://ipfs.io/ipfs/${metadatares?.IpfsHash}`;
-    setTokenUri(TokenUri);
-    console.log(TokenUri);
-    if(tokenUri!==""){     
-    const tx=await writeAsync?.();
-    console.log("Transaction",tx?.hash);}
-    // setIsLoading(false); 
-  }catch(error){
-    // setIsLoading(false);
-  }
-  } 
+ 
 
   useEffect(() => {
     // Check if both fields are filled
@@ -84,24 +56,6 @@ function Uploader() {
     getNftDetails.Description.trim() !== "" &&
     isImageSelected );
   }, [getNftDetails,isImageSelected]);
-
-
-  useEffect(() => {
-    if (isSuccess) {
-      isSuccess=false;
-      toast.success("NFT Created Successfully ",{
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      console.log(data, "Data");
-    }
-  }, [isSuccess]);
 
   return (
     <main className='flex justify-center flex-col items-center mt-16'>
@@ -148,6 +102,7 @@ function Uploader() {
     <div className="md:w-2/3">
       <input  type='text' 
         onChange={handleChange}
+        value={getNftDetails.NftName}
         name="NftName"  
         placeholder='insert NFT name' className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 mr-2" required/>
     </div>
@@ -160,24 +115,12 @@ function Uploader() {
     </div>
     <div className="md:w-2/3">
       <input onChange={handleChange}
-         name="Description"  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" placeholder="Description" required/>
+      value={getNftDetails.Description}
+         name="Description"  className="bg-gray-200 appearance-none border-2 bisErrororder-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type="text" placeholder="Description" required/>
     </div>
 
   </div>
-  {/* <button disabled={!isFormValid} className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg disabled:bg-slate-200" onClick={()=>handleUpload()}> {isLoading ? "Please Wait" : "Mint NFT"}</button> */}
-  <MintModal  getNftDetails={getNftDetails} selectedImage={selectedImage}/>
-
-  <ToastContainer
-         position="top-right"
-         autoClose={5000}
-         hideProgressBar={false}
-         newestOnTop={false}
-         closeOnClick
-         rtl={false}
-         pauseOnFocusLoss
-         draggable
-         pauseOnHover={false}
-         theme="light"/>
+  <MintModal setNftDetails={setNftDetails} setSelectedImage={setSelectedImage} isFormValid={isFormValid} getNftDetails={getNftDetails} selectedImage={selectedImage}/>
     </main>
   );
 }
