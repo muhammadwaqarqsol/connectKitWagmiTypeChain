@@ -5,7 +5,10 @@ import { MyNfts } from './components/pages/MyNfts';
 import { MainPage } from './components/pages/mainPage';
 import { NftListing } from './components/pages/NftListing';
 function App() {
-  return (
+  return (<>
+  <head> 
+  <title>NFTrops</title>
+  </head>
     <div className="relative min-h-screen">
      <Navbar />
      <Routes>
@@ -14,8 +17,7 @@ function App() {
       <Route path='/MyNfts' element={<MyNfts/>}></Route>
       <Route path='/ListedNfts' element={<NftListing />}></Route>
      </Routes>
-    </div>
-
+    </div></>
   );
 }
 

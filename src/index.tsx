@@ -48,7 +48,10 @@ root.render(
   <React.StrictMode>
      <BrowserRouter>
     <WagmiConfig config={config}>
-    <ConnectKitProvider>
+    <ConnectKitProvider  customTheme={{
+          "--ck-accent-color": "#00D54B",
+          "--ck-accent-text-color": "#ffffff",
+        }} mode="dark">
         <App />
       </ConnectKitProvider>
       </WagmiConfig>

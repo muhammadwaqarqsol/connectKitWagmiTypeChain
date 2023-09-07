@@ -9,9 +9,9 @@ export const MainPage = () => {
         <img src="logo.png" alt="Main Visual" className="w-3/2 rounded-lg" />
 
         {/* Content */}
-        <div className="w-1/2">
-            <h2 className="text-3xl font-semibold mb-4">Discover Unique NFTs</h2>
-            <p className="text-gray-700">
+        <div className="w-1/2 flex flex-col justify-center items-center">
+            <h2 className="text-3xl font-semibold mb-2 italic mt-2">Discover Unique NFTs</h2>
+            <p className="text-gray-700 text-2xl text-center">
                 Explore our exclusive collection of NFTs from digital artists and creators worldwide. 
                 Mint,Transfer and showcase your favorite digital assets.
             </p>
@@ -38,20 +38,21 @@ export const MainPage = () => {
     </div>
 
     {/* Text Box Section */}
-    <section className="mt-8 flex justify-between items-center flex-col">
-        <h2 className="text-3xl font-semibold mb-4 italic">About NFTrops</h2>
+    <section className="mt-4 flex justify-center items-center flex-col">
+        <h2 className="text-3xl font-semibold mb-2 italic">About NFTrops</h2>
         <p className="text-gray-700 text-2xl text-center">
             <span style={{ fontSize: '2rem' }}>NFTrops is your premier destination </span><br />
             <span style={{ fontSize: '2rem' }}>for discovering, Minting, Showcasing</span><br />
             <span style={{ fontSize: '2rem' }}>and Transfering unique NFTs.</span>
         </p>
-        <section className="mt-8 flex flex-col justify-center items-center">
-            <h2 className="text-3xl font-semibold ">How It Works</h2>
-            <span style={{ fontSize: '2rem' }}>Connect Wallet meta mask or any Evm Wallet</span>
-            <span style={{ fontSize: '2rem' }}>Go to My Nfts to see your own Nfts</span>
-            <span style={{ fontSize: '2rem' }}>Transfer Nfts from MyNft tab</span>
-            <span style={{ fontSize: '2rem' }}>Go to Listed Nfts to see all NFts listed</span>
-            <span style={{ fontSize: '2rem' }}>Showcase your digital assets</span>
+        <section className="mt-4 flex flex-col justify-center items-center">
+            <h2 className="text-3xl font-semibold mb-2 italic">How It Works</h2>
+            <p className='text-gray-700 text-2xl text-center'>
+            <span style={{ fontSize: '2rem' }}>Connect Wallet meta mask or any Evm Wallet</span><br />
+            <span style={{ fontSize: '2rem' }}>Go to My Nfts to see your own Nfts</span><br />
+            <span style={{ fontSize: '2rem' }}>Transfer Nfts from MyNft tab</span><br />
+            <span style={{ fontSize: '2rem' }}>Go to Listed Nfts to see all NFts listed</span><br />
+            <span style={{ fontSize: '2rem' }}>Showcase your digital assets</span></p>
         </section>
     </section>
 </div>

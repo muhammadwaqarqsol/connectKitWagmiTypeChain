@@ -3,8 +3,9 @@ import React, { ChangeEvent,MouseEvent, useCallback, useEffect, useState } from 
 import { useNFTFunctionReader, useNFTFunctionwriter } from '../utils/hook';
 import { useAccount, useWaitForTransaction } from 'wagmi';
 import {Modal} from '../ui/Modal';
+import { blob } from 'stream/consumers';
 interface ListedNftsProps {
-  projectID: number; // Change the type of projectID to match your data type
+  projectID: number; 
 }
 
 interface NFTData {
@@ -12,13 +13,10 @@ interface NFTData {
   name: string;
   description: string;
   nftTokenId:string;
-  // Add more properties if needed
 }
 
 export const OwnedListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
     const {address}=useAccount(); 
-    const [tokenId,setTokenId]=useState("");
-    const [recipientAddress,setRecipientAddress]=useState("");
     const [nftData, setNftData] = useState<NFTData | null>(null); // Use NFTData type for nftData initially
 
     const { data,error } = useNFTFunctionReader({
@@ -31,19 +29,10 @@ export const OwnedListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
     });
 
     
-
-    // const { writeAsync:burnToken, data:burn } = useNFTFunctionwriter(
-    //   "burnNft",
-    //   [tokenId]
-    // );
-    // let { isLoading:burnLoader, isSuccess:burnSuccess } = useWaitForTransaction({
-    //   hash: transfer?.hash,
-    // });
     useEffect(() => {
     if(!isError){if(Ownerof===address)
     { 
       if (data) {
-      // Make an Axios GET request to the data URL and update the state with the fetched data
       axios
         .get(data?.toString())
         .then((response) => {
@@ -59,9 +48,11 @@ export const OwnedListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
         });
       }}}}
       , [data]);
+
       if (!Ownerof || Ownerof !== address) {
-        return null;
-      }
+          return null
+        }
+    
 return (
   <>
   {nftData !== null &&

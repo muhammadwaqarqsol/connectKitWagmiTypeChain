@@ -68,7 +68,7 @@ export const ListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
                     <div className="mb-2">
                         <p className="text-lg font-bold text-navy-700"> {nftData?.name} </p>
                         <p className="text-lg mt-1 font-medium text-gray-600 md:mt-2">{nftData?.description}</p>
-                        <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2 ">By {Ownerof?.toString().slice(0,8)}...</p>
+                        <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2 ">Owned By {Ownerof?.toString().slice(0,8)}...</p>
                     </div>
                 </div>
             </div>

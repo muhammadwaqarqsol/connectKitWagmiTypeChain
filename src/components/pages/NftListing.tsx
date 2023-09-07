@@ -27,7 +27,7 @@ return (
         )}
       </div>
     ) : (
-      <div>Connect First</div>
+      <div className='flex justify-center items-center text-2xl text-red-500 rounded-lg'>Connect wallet First</div>
     )}
   </div>
 );}

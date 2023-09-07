@@ -39,12 +39,11 @@ export const Modal: React.FC<nftData> = ({ tokenId }) =>  {
         }catch(error){
             toast.error("Error",{
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 500,
                 hideProgressBar: false,
-                closeOnClick: true,
+                closeOnClick: false,
                 pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
+                draggable: false,
                 theme: "light",
               });
       }
@@ -55,7 +54,7 @@ export const Modal: React.FC<nftData> = ({ tokenId }) =>  {
         //   setShowModal(false)
           toast.success("Nft transfered Successfully ",{
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
@@ -140,11 +139,7 @@ export const Modal: React.FC<nftData> = ({ tokenId }) =>  {
          position="top-right"
          autoClose={5000}
          hideProgressBar={false}
-         newestOnTop={false}
-         closeOnClick
-         rtl={false}
          pauseOnFocusLoss
-         draggable
          pauseOnHover={false}
          theme="light"/>
         </>
