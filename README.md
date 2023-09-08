@@ -57,15 +57,15 @@ after getting these keys create .env file and check variable name from .env.exam
 
 ## Inside the components folder:
 
-## Pages for all the routes:
-
+- Pages for all the routes:
 - The main page is a static page.
 - mintNFT page allows users to select an image and display it in a container, along with input fields for the NFT's name and description.
 - myNFTs page displays NFTs owned by the user using a read function. It fetches all token IDs that exist within the contract and generates a card for each owned NFT.
 - NFTListing page lists all NFTs without checking ownership, showing all available NFTs.
 - The Ui folder contains two modal components: mintModal for minting NFTs and modal.tsx for transferring minted NFTs.
 
-# The utils folder contains utility functions, including a debug console logger that can be toggled on or off.
+# The utils folder contains 
+- utility functions, including a debug console logger that can be toggled on or off.
 
 - The hooks file contains functions for interacting with Wagmi, reducing redundancy when defining multiple functions for different operations.
 
@@ -77,7 +77,7 @@ after getting these keys create .env file and check variable name from .env.exam
 - OwnerOf defines the OwnedListedNFTs component, which generates cards for owned NFTs.
 - ListedNFT generates cards for listed NFTs.
 
-# The navbar.TSX Has only navbar element and connectkit button for evm wallet connection
+- The navbar.TSX Has only navbar element and connectkit button for evm wallet connection
 
 # The abi folder contains 
 - contract ABIs, which can be updated if you want to use your own ERC721 contracts.
