@@ -54,7 +54,7 @@ export const Modal: React.FC<nftData> = ({ tokenId }) =>  {
         //   setShowModal(false)
           toast.success("Nft transfered Successfully ",{
             position: "top-right",
-            autoClose: 500,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
@@ -116,6 +116,7 @@ export const Modal: React.FC<nftData> = ({ tokenId }) =>  {
                                     <button
                                         className="linear rounded-[20px] bg-red-400 px-4 py-2 text-base font-medium text-black transition duration-200 hover:bg-grey-200"
                                         type="button"
+                                        disabled={isLoading}
                                         onClick={() => setShowModal(false)}
                                     >
                                         Close

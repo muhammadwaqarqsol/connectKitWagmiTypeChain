@@ -43,6 +43,7 @@ export const MintModal: React.FC<MintModalProps> = ({ getNftDetails, selectedIma
         }catch(error:any){
             Debug && console.log("Error >>>",error.message);
             setTransactionerror("User Rejected The Request");
+            setMintstatus(false);
         }
             }
 
