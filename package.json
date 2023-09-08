@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://muhammadwaqarqsol.github.io/connectKitWagmiTypeChain",
+  
   "dependencies": {
     "@headlessui/react": "^1.7.17",
     "@testing-library/jest-dom": "^5.17.0",

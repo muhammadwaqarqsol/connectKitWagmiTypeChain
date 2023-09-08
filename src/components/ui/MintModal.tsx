@@ -6,7 +6,7 @@ import metaData from '../utils/Metadata';
 import { useNFTFunctionwriter } from "../utils/hook";
 import { useAccount, useWaitForTransaction } from 'wagmi';
 import { Link } from "react-router-dom";
-
+import Debug from "../utils/constant";
 interface MintModalProps {
     selectedImage: File | null | undefined;
     getNftDetails: {
@@ -37,23 +37,23 @@ export const MintModal: React.FC<MintModalProps> = ({ getNftDetails, selectedIma
         });
 
        async function mintNft(){
-            console.log("called");
+            Debug && console.log("called");
             try{const tx= await writeAsync?.();
-            console.log("Transaction",tx?.hash);
+            Debug && console.log("Transaction",tx?.hash);
         }catch(error:any){
-            console.log("Error >>>",error.message);
+            Debug && console.log("Error >>>",error.message);
             setTransactionerror("User Rejected The Request");
         }
             }
 
         const handleUpload=async()=>{
-          console.log(selectedImage,getNftDetails);
+            Debug && console.log(selectedImage,getNftDetails);
             const uploadImages= await ImageUploader(selectedImage,getNftDetails.NftName);
-            console.log(uploadImages?.status);
+            Debug && console.log(uploadImages?.status);
             if(uploadImages?.status===200){
             setImageStatus(true)}
             const metadatares=await metaData(getNftDetails.NftName,getNftDetails.Description,uploadImages?.IpfshashImage);
-            console.log(metadatares?.status);
+            Debug && console.log(metadatares?.status);
             if(metadatares?.status===200){
                 setMetadataStatus(true)  
             }
@@ -74,7 +74,7 @@ export const MintModal: React.FC<MintModalProps> = ({ getNftDetails, selectedIma
             if (isSuccess) {
             setMintstatus(true);
               isSuccess = false;
-              console.log(data, "Data");
+              Debug && console.log(data, "Data");
               // Set a timeout to close the modal after 5 seconds
               const modalTimeout = setTimeout(() => {
                 setShowModal(false);
@@ -85,7 +85,7 @@ export const MintModal: React.FC<MintModalProps> = ({ getNftDetails, selectedIma
                 setSelectedImage(null);
                 setNftDetails({ NftName: "", Description: "" });
               }, 3000);
-              console.log(getNftDetails);
+              Debug && console.log(getNftDetails);
             }
           }, [isSuccess]);
           

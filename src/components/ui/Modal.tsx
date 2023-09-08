@@ -4,7 +4,7 @@ import { useNFTFunctionwriter } from "../utils/hook";
 import { useAccount, useWaitForTransaction } from "wagmi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import Debug from "../utils/constant"
 interface nftData {
     tokenId: string; // Change the type of projectID to match your data type
   }
@@ -26,7 +26,7 @@ export const Modal: React.FC<nftData> = ({ tokenId }) =>  {
         let value=e.target.value;
         if(isAddress(value)){
         setAddress(e.target.value);
-        console.log(showaddress);
+        Debug && console.log(showaddress);
         setError(false);
     }
         else{
@@ -62,7 +62,7 @@ export const Modal: React.FC<nftData> = ({ tokenId }) =>  {
             progress: undefined,
             theme: "light",
           });
-          console.log(transfer, "Data");
+          Debug && console.log(transfer, "Data");
         }
       }, [isSuccess]);
     return (

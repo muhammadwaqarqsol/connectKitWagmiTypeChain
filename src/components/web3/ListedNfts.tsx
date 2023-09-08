@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNFTFunctionReader } from '../utils/hook';
-
+import Debug from "../utils/constant";
 interface ListedNftsProps {
   projectID: number;
   // projectID?: React.Reac/tNode; // Change the type of projectID to match your data type
@@ -36,24 +36,22 @@ export const ListedNfts: React.FC<ListedNftsProps> = ({ projectID }) => {
       axios
           .get(data?.toString())
           .then((response) => {
-            console.log("Response",response)
+            Debug && console.log("Response",response)
             setNftData(response.data);
           })
           .catch((error) => {
-            console.log("Data .. ",data)
+            Debug && console.log("Data .. ",data)
             console.error('Error fetching data:', error);
           });
     }}else {
-      console.log("CHECL ")
+      Debug && console.log("CHECL ")
       setNftData(null)
-      console.log("ERROR CHECK")
+      Debug && console.log("ERROR CHECK")
     }
   }, [data]);
   useEffect(() => {
-    console.log("NFT : ",nftData)
+    Debug && console.log("NFT : ",nftData)
   }, [nftData]);
-
-
 
   return (
     <>
