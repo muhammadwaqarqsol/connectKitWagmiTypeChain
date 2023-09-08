@@ -38,10 +38,15 @@ but first need to configure the env file require to run this
 
 ## configure env from example env given
 Get Infure id from [Infura](https://www.infura.io/) get API key 
+
 Get Pinata Jwt from [Pinata](https://www.pinata.cloud/)
+
 Get wallet connect APi Key from [walletConnect](https://cloud.walletconnect.com/sign-in)
 
 after getting these keys create .env file and check variable name from .env.example and set it up
 
+## Project Struture
+
+Inside the source # index.tsx 
 
 
