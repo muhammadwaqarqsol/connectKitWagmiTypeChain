@@ -45,25 +45,41 @@ but first need to configure the env file require to run this
 
 after getting these keys create .env file and check variable name from .env.example and set it up
 
-## Project Struture
 
-- Inside the source `index.tsx` is connectkit setup and wagmi is configured + also react router is setup.
-- Then `App.tsx` has all the routes of the folder structure with in navbar
-- The connectkit button to connect Evm wallet is inside the navbar component where there is also one read on chain function to check how many nfts owner has
-- Folder `Contract-types` has all the static typings required for solidity smart contracts usage.
-- Inside component we have pages for all the routes main page is static page
-- then mintNFt page has only features like select image and show it inside the container with input fields of name and description of the nft
-- The myNfts page has the feature to show your owned NFTS using read function that takes all tokenIds first that exist inside the contract then loop over it to pass to ownedListedNft component that takes id of token and generated a card for it if you own it else null will be return.
-- Same Nftlisting page do the same thing but it loop over all the tokend id to generate all cards without checking ower it is like listing all nfts.
-- The Ui folder has two modal minmodal that has button to mint nft after passing state props from minfNft page and modal.tsx is for transfer minted token NFT which takes props from myNft page component of OwnedListedNFTs.
-- utils folder has the utils like debug console word that if true it will console the output else wont.
-- hooks file has function for wagmi so we dont have to write the whole think again for multiple function we just defiine ones and then use it by pasiing arguments and also function name.
-- ImageUploader and MetaData uploader has post api functionality to post on pinata IPFS.
-- web3 folder has components totaltokenId that return a number of total token counter which will be required to see how many nfts are minted so we can loop over to generate card
-- The ownerof file has component ownedListedNfts which is already defined above
-- The listedNft has the same feature to generate card which is also discussed above
-- the navbar has navbar elements and button setup for connectkit.
-- The abi folder has contract abis you can change if you want to use your own ERC721 contracts
-- 
+## Here's an overview of the project structure:
+
+## Inside the src folder:
+
+- index.tsx sets up ConnectKit and configures Wagmi. It also sets up React Router.
+- App.tsx contains all the routes and the navigation bar.
+- The navigation bar includes a ConnectKit button for connecting EVM wallets and a read on-chain function to check how many NFTs the owner has.
+- The Contract-types folder contains static typings required for Solidity smart contracts usage.
+
+## Inside the components folder:
+
+## Pages for all the routes:
+
+- The main page is a static page.
+- mintNFT page allows users to select an image and display it in a container, along with input fields for the NFT's name and description.
+- myNFTs page displays NFTs owned by the user using a read function. It fetches all token IDs that exist within the contract and generates a card for each owned NFT.
+- NFTListing page lists all NFTs without checking ownership, showing all available NFTs.
+- The Ui folder contains two modal components: mintModal for minting NFTs and modal.tsx for transferring minted NFTs.
+
+# The utils folder contains utility functions, including a debug console logger that can be toggled on or off.
+
+- The hooks file contains functions for interacting with Wagmi, reducing redundancy when defining multiple functions for different operations.
+
+- ImageUploader and MetaDataUploader handle the POST API functionality for uploading data to Pinata IPFS.
+
+## The web3 folder contains components:
+
+- TotalTokenId returns the total number of tokens minted, which is used to determine the number of NFTs to display.
+- OwnerOf defines the OwnedListedNFTs component, which generates cards for owned NFTs.
+- ListedNFT generates cards for listed NFTs.
+
+# The navbar.TSX Has only navbar element and connectkit button for evm wallet connection
+
+# The abi folder contains 
+- contract ABIs, which can be updated if you want to use your own ERC721 contracts.
 
 
