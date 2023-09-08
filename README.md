@@ -87,3 +87,9 @@ after getting these keys create .env file and check variable name from .env.exam
 - It is also verified you can run function on polygon mumbai scan as well.
 - Code and Abi can be seen there as well.
   
+### Warning:
+- This project doesnot contain any database to store users nft so while getting data from chain and ipfs it continously send get request and show it show the data is continously fetching from respective servers no local storage feature to store and fecth again plus no any kind of other session storage. So when you mint nft and go to my Nft it might show your data a little late due to network fetching it depends on internet speed and your browser.
+- That's all.
+
+## MIT License
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
