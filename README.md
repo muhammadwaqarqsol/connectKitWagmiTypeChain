@@ -1,4 +1,3 @@
-
 ## Project Dependencies Required
 wagmi for etheruem hooks to get read write functionality on Blockchain 
 ```shell
@@ -23,7 +22,7 @@ npm i ethers
 ```
 
 ## Running project
-You need to clone this using 
+You need to clone this repo using 
 ```shell
 git clone urlofthisrepo
 ```
