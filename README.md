@@ -36,6 +36,7 @@ npm start
 ```
 but first need to configure the env file require to run this 
 
-##configure env from example env given
+## configure env from example env given
+get Infure id from [Infure](https://www.infura.io/)
 
 
