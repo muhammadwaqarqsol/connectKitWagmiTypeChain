@@ -82,4 +82,8 @@ after getting these keys create .env file and check variable name from .env.exam
 # The abi folder contains 
 - contract ABIs, which can be updated if you want to use your own ERC721 contracts.
 
-
+# Contract for NFt
+- NFT contract is deployed on polygon with address `0x68377b4BDf3b1E4804D15E81774c5398A670E5eE`.
+- It is also verified you can run function on polygon mumbai scan as well.
+- Code and Abi can be seen there as well.
+  
